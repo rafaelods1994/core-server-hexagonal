@@ -1,5 +1,8 @@
+
 plugins {
 	id 'java'
+	id 'jacoco' // Test coverage plugin
+	id 'info.solidsoft.pitest' version '1.9.11' // Latest PIT plugin version
 	id 'org.springframework.boot' version '3.4.3'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
@@ -12,6 +15,10 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
+
+apply from: 'integration.gradle' // integration test
+apply from: 'coverage.gradle' // coverage test report
+apply from: 'mutation.gradle' // mutation test report
 
 repositories {
 	mavenCentral()
@@ -33,6 +40,7 @@ dependencies {
 	// Testing
 	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Spring Boot's testing support
 	runtimeOnly 'com.h2database:h2' // In-memory database for testing
+	testImplementation 'org.pitest:pitest-junit5-plugin:1.2.2'
 
 }
 

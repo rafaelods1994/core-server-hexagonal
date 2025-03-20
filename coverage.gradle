@@ -1,0 +1,30 @@
+jacoco {
+    toolVersion = "0.8.10" // Latest stable version
+}
+
+jacocoTestReport {
+    dependsOn test // Ensure tests are run before generating coverage
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+tasks.test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport // Generate coverage report after tests
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.80 // Require at least 80% test coverage
+            }
+        }
+    }
+}
+
+tasks.check {
+    dependsOn jacocoTestCoverageVerification
+}

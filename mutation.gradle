@@ -1,0 +1,15 @@
+pitest {
+    testPlugin = 'junit5' // Use JUnit 5 for testing
+    targetClasses = ['com.rafael.hexagonal.*'] // Specify the package for mutation testing
+    targetTests = ['com.rafael.hexagonal.*'] // Specify the package containing tests
+    mutators = ['DEFAULTS'] // Default mutation operators
+    verbose = true
+    threads = 4 // Speed up testing using multiple threads
+    outputFormats = ['HTML', 'XML'] // Report formats
+    failWhenNoMutations = true
+    mutationThreshold = 75 // Minimum 80% mutation coverage required
+}
+
+tasks.named('check') {
+    finalizedBy 'pitest' // PIT runs after check is completed
+}
