@@ -7,12 +7,6 @@ plugins {
 group = 'com.rafael.hexagonal'
 version = '0.0.1-SNAPSHOT'
 
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
-}
-
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -24,14 +18,22 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation project(':openapi-codegen') // Generated code module
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // For database interactions
+	implementation 'org.springframework.boot:spring-boot-starter-web' // REST APIs and web support
+
+	//DB
+	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+	runtimeOnly 'com.mysql:mysql-connector-j' // MySQL driver for production
+
+	compileOnly 'org.projectlombok:lombok' // Reduces boilerplate
+	annotationProcessor 'org.projectlombok:lombok' // Lombok annotation processing
+	developmentOnly 'org.springframework.boot:spring-boot-devtools' // Hot reloading during development
+
+	// Testing
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Spring Boot's testing support
+	runtimeOnly 'com.h2database:h2' // In-memory database for testing
+
 }
 
 tasks.named('test') {

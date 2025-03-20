@@ -1,0 +1,70 @@
+plugins {
+    id 'java'
+    id 'org.openapi.generator' version '6.5.0' // Use the latest version
+    id 'org.springframework.boot' version '3.4.3'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:3.4.3"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = "${projectDir}/openapi.yaml"
+    outputDir = "${buildDir}/generated" // Direct the output to the build directory
+    configOptions = [
+            library: "spring-boot",
+            interfaceOnly: "true",  // Only generate interfaces
+            dateLibrary: "java8",
+            useJakartaEe: "true",
+            skipDefaultInterface: "true" // Skip generating unnecessary default interfaces
+    ]
+    // Exclude unnecessary files from being generated
+    globalProperties = [
+            models: "", // Only generate necessary models (if needed)
+            apis: "" // Focus on API interfaces
+    ]
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs += "${buildDir}/generated/src/main/java" // Add generated code to build directory
+        }
+    }
+}
+
+// Disable bootJar for this module
+tasks.named("bootJar") {
+    enabled = false
+}
+
+// Use jar instead of bootJar
+tasks.named("jar") {
+    enabled = true
+}
+
+// Make sure code generation happens before compilation
+tasks.named("compileJava") {
+    dependsOn tasks.named("openApiGenerate")
+}
+
+ext {
+    swaggerVersion = '2.2.15'
+    jacksonNullableVersion = '0.2.6'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation "io.swagger.core.v3:swagger-annotations:$swaggerVersion"
+    implementation "io.swagger.core.v3:swagger-models:$swaggerVersion"
+    implementation "org.openapitools:jackson-databind-nullable:$jacksonNullableVersion"
+}
