@@ -41,7 +41,6 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Spring Boot's testing support
 	runtimeOnly 'com.h2database:h2' // In-memory database for testing
 	testImplementation 'org.pitest:pitest-junit5-plugin:1.2.2'
-
 }
 
 tasks.named('test') {
