@@ -7,7 +7,7 @@ pitest {
     threads = 4 // Speed up testing using multiple threads
     outputFormats = ['HTML', 'XML'] // Report formats
     failWhenNoMutations = true
-    mutationThreshold = 75 // Minimum 80% mutation coverage required
+    mutationThreshold = 80 // Minimum 80% mutation coverage required
 }
 
 tasks.named('check') {

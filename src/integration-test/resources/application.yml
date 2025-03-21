@@ -7,7 +7,8 @@ spring:
     platform: h2
   jpa:
     hibernate:
-      ddl-auto: create-drop # Automatically create and drop tables for each test run
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+    show-sql: true

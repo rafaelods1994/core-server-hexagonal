@@ -1,6 +1,5 @@
 package com.rafael.hexagonal.infrastructure.adapter.output;
 
-import com.rafael.hexagonal.domain.port.TaskRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -14,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @ActiveProfiles("test") // Use test profile for H2 database
 @SpringJUnitConfig // Ensures proper Spring context for integration testing
-class TaskJpaRepositoryTest {
+class TaskJpaRepositoryIntegrationTest {
 
     @Autowired
     private SpringDataTaskRepository springDataTaskRepository;
