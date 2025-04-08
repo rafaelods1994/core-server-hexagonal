@@ -1,6 +1,9 @@
 name: Gradle CI Pipeline
 
 on:
+  push:
+    branches:
+      - revision-1
   pull_request:
     branches:
       - main
