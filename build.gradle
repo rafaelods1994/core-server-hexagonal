@@ -1,5 +1,8 @@
+
 plugins {
 	id 'java'
+	id 'jacoco' // Test coverage plugin
+	id 'info.solidsoft.pitest' version '1.9.11' // Latest PIT plugin version
 	id 'org.springframework.boot' version '3.4.3'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
@@ -7,31 +10,37 @@ plugins {
 group = 'com.rafael.hexagonal'
 version = '0.0.1-SNAPSHOT'
 
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
-}
-
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
 }
 
+apply from: 'integration.gradle' // integration test
+apply from: 'coverage.gradle' // coverage test report
+apply from: 'mutation.gradle' // mutation test report
+
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation project(':openapi-codegen') // Generated code module
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // For database interactions
+	implementation 'org.springframework.boot:spring-boot-starter-web' // REST APIs and web support
+
+	//DB
+	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+	runtimeOnly 'com.mysql:mysql-connector-j' // MySQL driver for production
+
+	compileOnly 'org.projectlombok:lombok' // Reduces boilerplate
+	annotationProcessor 'org.projectlombok:lombok' // Lombok annotation processing
+	developmentOnly 'org.springframework.boot:spring-boot-devtools' // Hot reloading during development
+
+	// Testing
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Spring Boot's testing support
+	runtimeOnly 'com.h2database:h2' // In-memory database for testing
+	testImplementation 'org.pitest:pitest-junit5-plugin:1.2.2'
 }
 
 tasks.named('test') {
