@@ -9,24 +9,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-steps:
-  # Step 1: Check out the code
-  - name: Checkout code
-    uses: actions/checkout@v3
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  # Step 2: Set up JDK 20
-  - name: Set up JDK 20
-    uses: actions/setup-java@v3
-    with:
-      java-version: 20
-      distribution: 'temurin'
+      # Step 2: Set up JDK 20
+      - name: Set up JDK 20
+        uses: actions/setup-java@v3
+        with:
+          java-version: 20
+          distribution: 'temurin'
 
-  # Step 3: Fix gradlew permissions for Linux runners
-  - name: Fix permissions for gradlew
-    run: chmod +x ./gradlew
+      # Step 3: Fix permissions for gradlew (Linux runner compatibility)
+      - name: Fix gradlew permissions
+        run: chmod +x ./gradlew
 
-  # Step 4: Build and Test with Gradle
-  - name: Build with Gradle
-    run: ./gradlew build
-
-
+      # Step 4: Build and Test with Gradle
+      - name: Build with Gradle
+        run: ./gradlew build
