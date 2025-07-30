@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - revision-1
+      - main
   pull_request:
     branches:
       - main
