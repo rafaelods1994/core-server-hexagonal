@@ -52,11 +52,11 @@ class TaskServiceImplTest {
         TaskResponseDTO response = taskService.createTask(requestDTO);
 
         // Assert
-        assertThat(response.getId()).isEqualTo(1L);
-        assertThat(response.getTitle()).isEqualTo("Test Title");
-        assertThat(response.getDescription()).isEqualTo("Test Description");
-        assertThat(response.getStatus()).isEqualTo(TaskEntity.StatusEnum.PENDING);
-        assertThat(response.getPriority()).isEqualTo(TaskEntity.PriorityEnum.HIGH);
+        assertThat(response.id()).isEqualTo(1L);
+        assertThat(response.title()).isEqualTo("Test Title");
+        assertThat(response.description()).isEqualTo("Test Description");
+        assertThat(response.status()).isEqualTo(TaskEntity.StatusEnum.PENDING);
+        assertThat(response.priority()).isEqualTo(TaskEntity.PriorityEnum.HIGH);
 
         // Verify that all fields were set on TaskEntity before saving
         verify(springDataTaskRepository).save(argThat(task ->
@@ -84,8 +84,8 @@ class TaskServiceImplTest {
         TaskResponseDTO responseDTO = taskService.getTaskById(1L);
 
         // Assert
-        assertEquals("Test Task", responseDTO.getTitle());
-        assertEquals(TaskEntity.StatusEnum.PENDING, responseDTO.getStatus());
+        assertEquals("Test Task", responseDTO.title());
+        assertEquals(TaskEntity.StatusEnum.PENDING, responseDTO.status());
         verify(springDataTaskRepository, times(1)).findById(1L);
     }
 
@@ -114,9 +114,9 @@ class TaskServiceImplTest {
         TaskResponseDTO responseDTO = taskService.updateTask(taskId, requestDTO);
 
         // Assert
-        assertEquals("Updated Task", responseDTO.getTitle());
-        assertEquals(TaskEntity.StatusEnum.PENDING, responseDTO.getStatus());
-        assertEquals(TaskEntity.PriorityEnum.MEDIUM, responseDTO.getPriority());
+        assertEquals("Updated Task", responseDTO.title());
+        assertEquals(TaskEntity.StatusEnum.PENDING, responseDTO.status());
+        assertEquals(TaskEntity.PriorityEnum.MEDIUM, responseDTO.priority());
         verify(springDataTaskRepository, times(1)).findById(taskId);
         verify(springDataTaskRepository, times(1)).save(existingTask);
     }
@@ -163,8 +163,8 @@ class TaskServiceImplTest {
 
         // Assert
         assertEquals(2, responseDTOs.size());
-        assertEquals("Task 1", responseDTOs.get(0).getTitle());
-        assertEquals("Task 2", responseDTOs.get(1).getTitle());
+        assertEquals("Task 1", responseDTOs.get(0).title());
+        assertEquals("Task 2", responseDTOs.get(1).title());
         verify(springDataTaskRepository, times(1)).findAll();
     }
 
@@ -206,10 +206,10 @@ class TaskServiceImplTest {
         TaskResponseDTO response = taskService.updateTask(taskId, requestDTO);
 
         // Assert
-        assertThat(response.getTitle()).isEqualTo("Updated Title");
-        assertThat(response.getDescription()).isEqualTo("Original Description"); // Unchanged
-        assertThat(response.getStatus()).isEqualTo(TaskEntity.StatusEnum.PENDING); // Unchanged
-        assertThat(response.getPriority()).isEqualTo(TaskEntity.PriorityEnum.MEDIUM);
+        assertThat(response.title()).isEqualTo("Updated Title");
+        assertThat(response.description()).isEqualTo("Original Description"); // Unchanged
+        assertThat(response.status()).isEqualTo(TaskEntity.StatusEnum.PENDING); // Unchanged
+        assertThat(response.priority()).isEqualTo(TaskEntity.PriorityEnum.MEDIUM);
 
         // Verify the updated fields in TaskEntity
         verify(springDataTaskRepository).save(argThat(task ->
@@ -239,8 +239,8 @@ class TaskServiceImplTest {
         TaskResponseDTO responseDTO = taskService.getTaskById(taskId);
 
         // Assert
-        assertEquals("Valid Task", responseDTO.getTitle());
-        assertEquals(TaskEntity.StatusEnum.PENDING, responseDTO.getStatus());
+        assertEquals("Valid Task", responseDTO.title());
+        assertEquals(TaskEntity.StatusEnum.PENDING, responseDTO.status());
         verify(springDataTaskRepository, times(1)).findById(taskId);
     }
 
@@ -263,7 +263,7 @@ class TaskServiceImplTest {
         TaskResponseDTO response = taskService.updateTask(taskId, requestDTO);
 
         // Assert
-        assertThat(response.getStatus()).isEqualTo(TaskEntity.StatusEnum.PENDING); // Unchanged
+        assertThat(response.status()).isEqualTo(TaskEntity.StatusEnum.PENDING); // Unchanged
         verify(springDataTaskRepository).save(argThat(task ->
                 task.getStatus() == TaskEntity.StatusEnum.PENDING // Ensure status is not modified
         ));
@@ -294,8 +294,8 @@ class TaskServiceImplTest {
         TaskResponseDTO responseDTO = taskService.updateTask(taskId, requestDTO);
 
         // Assert
-        assertEquals("Original Title", responseDTO.getTitle()); // Title should not change
-        assertEquals("Updated Description", responseDTO.getDescription()); // Description updated
+        assertEquals("Original Title", responseDTO.title()); // Title should not change
+        assertEquals("Updated Description", responseDTO.description()); // Description updated
         verify(springDataTaskRepository, times(1)).findById(taskId);
         verify(springDataTaskRepository, times(1)).save(existingTask);
     }
@@ -325,9 +325,9 @@ class TaskServiceImplTest {
         TaskResponseDTO responseDTO = taskService.updateTask(taskId, requestDTO);
 
         // Assert
-        assertEquals("Updated Title", responseDTO.getTitle()); // Title updated
-        assertEquals("Updated Description", responseDTO.getDescription()); // Description updated
-        assertEquals(TaskEntity.PriorityEnum.MEDIUM, responseDTO.getPriority()); // Priority should not change
+        assertEquals("Updated Title", responseDTO.title()); // Title updated
+        assertEquals("Updated Description", responseDTO.description()); // Description updated
+        assertEquals(TaskEntity.PriorityEnum.MEDIUM, responseDTO.priority()); // Priority should not change
         verify(springDataTaskRepository, times(1)).findById(taskId);
         verify(springDataTaskRepository, times(1)).save(existingTask);
     }
